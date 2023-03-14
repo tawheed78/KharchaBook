@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+ 
+{% load static %}
+
+{% block content %}
+    <div class="container py-5">
+        <h3 class="text-uppercase">History</h3><small>You have total {{expense_count}} transactions</small>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <table class="table table-hover" id="myOrdersTable">
+                <thead>
+                    <tr>
+                        <th scope="col">User</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>                            
+                    </tr>
+                </thead>
+                <tbody>
+                {% for expense in recent_expense %}
+                    <tr>
+                        <td>{{ expense.user }}</td>
+                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.amount}}</td>
+                        <td>{{ expense.date}}</td>
+                        {% comment %} <td><a href="" class="btn btn-danger">Details</a></td> {% endcomment %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>												
+    </div>
+
+{% endblock %}

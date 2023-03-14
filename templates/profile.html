@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h1>{{ request.user.username }}'s Profile</h1>
+        {% if profile.income %}
+            <p>Income: {{ profile.income }}</p>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

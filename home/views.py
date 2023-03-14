@@ -1,0 +1,132 @@
+from django.shortcuts import  get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+from .forms import NewUserForm, ProfileForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponse
+from .forms import AddExpenseForm
+from .models import Profile, Expense
+# from .models import User
+# Create your views here.
+
+def redirect_view(request):
+    return redirect('login')
+
+@login_required
+def home(request):
+	try:
+		profile = request.user.profile
+		expenses = Expense.objects.filter(profile=profile)
+		top_five_expense = expenses[:5]
+		income = profile.income if profile.income is not None else 0
+		amounts = [int(expense.amount) for expense in expenses]
+		total_expense = sum(amounts)
+		# total_expense = sum(expense.amount for expense in expenses)
+		balance = income - total_expense
+	except Profile.DoesNotExist:
+		profile = None
+		income = 0
+		total_expense = 0
+		balance = 0
+	context = {
+		"income": income,
+		"total_expense": total_expense,
+		"balance":balance,
+		"profile":profile,
+		"expenses_count": expenses.count(),
+		"top_five_expense":top_five_expense,
+	}
+	return render(request, 'home.html',context)
+
+
+
+def register(request):
+	if request.method == "POST":
+		form = NewUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			messages.success(request, "Registration successful." )
+			return redirect(reverse('login'))
+		messages.error(request, "Unsuccessful registration. Invalid information.")
+	form = NewUserForm()
+	return render (request, "register.html", context={'form':form})
+
+
+def login_request(request):
+	if request.method == 'POST':
+		form = AuthenticationForm(request, data=request.POST)
+		if form.is_valid():
+			username = form.cleaned_data.get('username')
+			password = form.cleaned_data.get('password')
+			user = authenticate(username=username, password=password)
+			if user is not None:
+				login(request, user)
+				messages.info(request, "You are logged in")
+				return redirect(reverse('home'))
+			else:
+				messages.error(request, "Invalid Username")
+		else:
+			messages.error(request, "Invalid Username")
+	form = AuthenticationForm()
+	context = {
+		'login_form':form
+    }
+	return render(request, 'login.html',context)
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+@login_required
+def profile(request):
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'profile.html', {'form': form})
+
+
+@login_required
+def add_expense(request):
+	user_profile = Profile.objects.get(user=request.user)
+
+	if request.method == 'POST':
+		form = AddExpenseForm(request.POST)
+
+		if form.is_valid():
+			#create a new expense obj
+			new_expense = form.save(commit=False)
+			new_expense.user = request.user
+			new_expense.profile = user_profile
+			new_expense.save()
+
+			return redirect(reverse('home'))
+	else:
+		form = AddExpenseForm()
+	context = {
+		"form":form,
+	}
+	return render(request, 'add_expense.html', context)
+
+
+def expense_history(request):
+	expense = Expense.objects.filter(user = request.user)
+	recent_expense = expense[:20]
+	context = {
+		"expense":expense,
+		"expense_count":expense.count(),
+		"recent_expense":recent_expense,
+	}
+	return render(request, 'expense_history.html', context)

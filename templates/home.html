@@ -3,51 +3,51 @@
 
 {% block content %}
 
-<header>
+{% comment %} <header>
     <h2>Expense Tracker</h2>
-</header>
+</header> {% endcomment %}
+<div class="content">
+    <div class="container py-5 ">
+        <h4>{{profile}}'s Balance</h4>
+        <h1 id="balance">{{balance}}</h1>
 
-<div class="container py-5 ">
-    <h4>{{profile}}'s Balance</h4>
-    <h1 id="balance">{{balance}}</h1>
-
-    <div class="inc-exp-container">
-        <div>
-            <h4>Income</h4>
-            <p id="money-plus" class="money plus">{{income}}</p>
+        <div class="inc-exp-container">
+            <div>
+                <h4>Income</h4>
+                <p id="money-plus" class="money plus">{{income}}</p>
+            </div>
+            <div>
+                <h4>Expense</h4>
+                <p id="money-minus" class="money minus">{{total_expense}}</p>
+            </div>
         </div>
-        <div>
-            <h4>Expense</h4>
-            <p id="money-minus" class="money minus">{{total_expense}}</p>
-        </div>
-    </div>
 
-    <div class="container py-5">
-        <h3 class="text-uppercase">Recent Transactions</h3>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table class="table table-hover" id="myOrdersTable">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Date</th>                            
-                    </tr>
-                </thead>
-                <tbody>
-                {% for expense in top_five_expense %}
-                    <tr>
-                        <td>{{ expense.name }}</td>
-                        <td>{{ expense.amount}}</td>
-                        <td>{{ expense.date}}</td>
-                        {% comment %} <td><a href="" class="btn btn-danger">Details</a></td> {% endcomment %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>												
+        <div class="container py-5">
+            <h3 class="text-uppercase">Recent Transactions</h3>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <table class="table table-hover" id="myOrdersTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for expense in top_five_expense %}
+                        <tr>
+                            <td>{{ expense.name }}</td>
+                            <td>{{ expense.amount}}</td>
+                            <td>{{ expense.date}}</td>
+                            {% comment %} <td><a href="" class="btn btn-danger">Details</a></td> {% endcomment %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>												
+        </div>
     </div>
 </div>
-
 {% endblock %}
 
 

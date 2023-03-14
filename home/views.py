@@ -14,7 +14,7 @@ from .models import Profile, Expense
 def redirect_view(request):
     return redirect('login')
 
-@login_required
+@login_required(login_url = 'login')
 def home(request):
 	try:
 		profile = request.user.profile
@@ -76,12 +76,12 @@ def login_request(request):
     }
 	return render(request, 'login.html',context)
 
-@login_required
+@login_required(login_url = 'login')
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-@login_required
+@login_required(login_url = 'login')
 def profile(request):
     try:
         profile = request.user.profile
@@ -98,7 +98,7 @@ def profile(request):
     return render(request, 'profile.html', {'form': form})
 
 
-@login_required
+@login_required(login_url = 'login')
 def add_expense(request):
 	user_profile = Profile.objects.get(user=request.user)
 
@@ -120,7 +120,7 @@ def add_expense(request):
 	}
 	return render(request, 'add_expense.html', context)
 
-
+@login_required(login_url = 'login')
 def expense_history(request):
 	expense = Expense.objects.filter(user = request.user)
 	recent_expense = expense[:20]

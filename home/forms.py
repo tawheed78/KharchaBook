@@ -20,9 +20,11 @@ class NewUserForm(UserCreationForm):
 		return user
 	
 class AddExpenseForm(forms.ModelForm):
+	id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
 	class Meta:
 		model = Expense
-		fields = ['name', 'amount', 'date']
+
+		fields = ['name', 'amount', 'date','id']
 		widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
         }

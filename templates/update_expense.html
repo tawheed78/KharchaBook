@@ -4,13 +4,12 @@
 
 {%block content%}
 
-
 {% load crispy_forms_tags %}
 <div class="content">
     <div class="container py-5">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h3>Add new transaction</h3>
-            <form id = "form" method="POST">
+            <h3>Update Expense - {{expense_id}}</h3>
+            <form id = "form" method="POST" action="{% url 'update_expense' expense_id %}">
                 {% csrf_token %}
                 {{form.as_p}}
                 {% comment %} <div>
@@ -19,8 +18,10 @@
                 <div>
                     <label>Amount: <input type="number" /></lable>   
                 </div> {% endcomment %}
-                <button type="submit">Add transaction</button>
+                <button type="submit">Update</button>
             </form>
+            <p>Current name: {{ expense.name }}</p>
+            <p>Current amount: {{ expense.amount }}</p>
         </div> 
     </div>
 </div>

@@ -13,7 +13,8 @@
                         <th scope="col">User</th>
                         <th scope="col">Name</th>
                         <th scope="col">Amount</th>
-                        <th scope="col">Date</th>                            
+                        <th scope="col">Date</th>
+                        <th scope="col">Update</th>                           
                     </tr>
                 </thead>
                 <tbody>
@@ -23,7 +24,13 @@
                         <td>{{ expense.name }}</td>
                         <td>{{ expense.amount}}</td>
                         <td>{{ expense.date}}</td>
-                        {% comment %} <td><a href="" class="btn btn-danger">Details</a></td> {% endcomment %}
+                        <td>
+                            <a href="{% url 'update_expense' expense.id %}" class="btn btn-primary">Update</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'delete_expense' expense.id %}" class="btn btn-primary">Delete</a>
+                        </td>
+                        
                     </tr>
                 {% endfor %}
                 </tbody>

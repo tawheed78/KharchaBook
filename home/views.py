@@ -5,9 +5,9 @@ from .forms import NewUserForm, ProfileForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponse
 from .forms import AddExpenseForm
 from .models import Profile, Expense
+from django.db.models import Max
 # from .models import User
 # Create your views here.
 
@@ -18,7 +18,7 @@ def redirect_view(request):
 def home(request):
 	try:
 		profile = request.user.profile
-		expenses = Expense.objects.filter(profile=profile)
+		expenses = Expense.objects.filter(profile=profile).order_by('-id')
 		top_five_expense = expenses[:5]
 		income = profile.income if profile.income is not None else 0
 		amounts = [int(expense.amount) for expense in expenses]
@@ -79,6 +79,7 @@ def login_request(request):
 @login_required(login_url = 'login')
 def logout_view(request):
     logout(request)
+    messages.info(request, "User Logout succesfully")
     return redirect('login')
 
 @login_required(login_url = 'login')
@@ -107,11 +108,13 @@ def add_expense(request):
 
 		if form.is_valid():
 			#create a new expense obj
+			expense_id = Expense.objects.aggregate(Max('id'))['id__max'] + 1
 			new_expense = form.save(commit=False)
+			new_expense.id = expense_id
 			new_expense.user = request.user
 			new_expense.profile = user_profile
 			new_expense.save()
-
+			messages.success(request, "Expense added succesfully")
 			return redirect(reverse('home'))
 	else:
 		form = AddExpenseForm()
@@ -121,8 +124,36 @@ def add_expense(request):
 	return render(request, 'add_expense.html', context)
 
 @login_required(login_url = 'login')
+def update_expense(request, expense_id):
+	expense = get_object_or_404(Expense, id=expense_id, user = request.user)
+	if request.method == "POST":
+		form = AddExpenseForm(request.POST, instance=expense)
+
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Expense updated succesfully")
+			return redirect(reverse('home'))
+	else:
+		form = AddExpenseForm(instance=expense)
+	
+	context = {
+		"form":form,
+		"expense":expense,
+		"expense_id":expense_id,
+	}
+	return render(request, 'update_expense.html', context)
+
+@login_required(login_url = 'login')
+def delete_expense(request, expense_id):
+	expense = get_object_or_404(Expense, id = expense_id, user = request.user)
+	expense.delete()
+	# messages.WARNING("Expense deleted succesfully")
+	return redirect(reverse('home'))
+	
+
+@login_required(login_url = 'login')
 def expense_history(request):
-	expense = Expense.objects.filter(user = request.user)
+	expense = Expense.objects.filter(user = request.user).order_by('-id')
 	recent_expense = expense[:20]
 	context = {
 		"expense":expense,

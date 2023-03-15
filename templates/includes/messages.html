@@ -1,0 +1,56 @@
+{% load static %}
+{% comment %} {% for message in messages %}
+<div class="container-fluid p-0">
+  <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="True">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+</div>
+{% endfor %} {% endcomment %}
+
+<html>
+<head>
+	<title>My Page</title>
+	<style>
+		.container-fluid {
+		    position: fixed;
+		    bottom: 20px;
+		    right: 20px;
+		    z-index: 9999;
+            width: 300px;
+		}
+
+		.alert {
+		    opacity: 0;
+		    transition: opacity 2s ease-in-out;
+		}
+
+		.alert.show {
+		    opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	{% for message in messages %}
+	<div class="container-fluid p-0">
+	  <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	      <span aria-hidden="True">&times;</span>
+	    </button>
+	    {{ message }}
+	  </div>
+	</div>
+	<script>
+	$(document).ready(function() {
+	  $('.alert').addClass('show');
+	  setTimeout(function() {
+	    $('.alert').removeClass('show');
+	  }, 2000);
+	});
+	</script>
+	{% endfor %}
+</body>
+</html>
+

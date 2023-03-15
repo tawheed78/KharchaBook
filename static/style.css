@@ -147,3 +147,19 @@ footer {
   text-align: center;
   padding: 20px;
 }
+
+.container-fluid {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.alert {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.alert.show {
+  opacity: 1;
+}

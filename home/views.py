@@ -16,6 +16,8 @@ def redirect_view(request):
 
 @login_required(login_url = 'login')
 def home(request):
+	expenses = Expense.objects.none()
+	top_five_expense = Expense.objects.none()
 	try:
 		profile = request.user.profile
 		expenses = Expense.objects.filter(profile=profile).order_by('-id')
@@ -26,10 +28,11 @@ def home(request):
 		# total_expense = sum(expense.amount for expense in expenses)
 		balance = income - total_expense
 	except Profile.DoesNotExist:
-		profile = None
+		profile = "New User"
 		income = 0
 		total_expense = 0
 		balance = 0
+		
 	context = {
 		"income": income,
 		"total_expense": total_expense,

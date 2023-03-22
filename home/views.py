@@ -8,6 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import AddExpenseForm
 from .models import Profile, Expense
 from django.db.models import Max
+from django.utils.timezone import now
 # from .models import User
 # Create your views here.
 
@@ -96,7 +97,7 @@ def profile(request):
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect(reverse('home'))
     else:
         form = ProfileForm(instance=profile)
     return render(request, 'profile.html', {'form': form})

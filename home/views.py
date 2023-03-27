@@ -13,7 +13,7 @@ from django.utils.timezone import now
 # Create your views here.
 
 def redirect_view(request):
-    return redirect('login')
+    return redirect('register')
 
 @login_required(login_url = 'login')
 def home(request):
@@ -71,9 +71,9 @@ def login_request(request):
 				messages.info(request, "You are logged in")
 				return redirect(reverse('home'))
 			else:
-				messages.error(request, "Invalid Username")
+				messages.error(request, "Invalid Username or Password")
 		else:
-			messages.error(request, "Invalid Username")
+			messages.error(request, "Invalid Username or Password")
 	form = AuthenticationForm()
 	context = {
 		'login_form':form
@@ -105,7 +105,16 @@ def profile(request):
 
 @login_required(login_url = 'login')
 def add_expense(request):
-	user_profile = Profile.objects.get(user=request.user)
+	# user_profile = Profile.objects.get(user=request.user)
+	# try:
+    #     profile = request.user.profile
+    # except Profile.DoesNotExist:
+    #     profile = Profile(user=request.user)
+	try:
+		user_profile = Profile.objects.get(user=request.user)
+	except Profile.DoesNotExist:
+		user_profile = Profile(user=request.user)
+		user_profile.save()
 
 	if request.method == 'POST':
 		form = AddExpenseForm(request.POST)
@@ -120,6 +129,7 @@ def add_expense(request):
 			new_expense.save()
 			messages.success(request, "Expense added succesfully")
 			return redirect(reverse('home'))
+			
 	else:
 		form = AddExpenseForm()
 	context = {

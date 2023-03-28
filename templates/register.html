@@ -4,23 +4,7 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-{% comment %} <div class="content">
-    <div class="container py-5">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1>Sign up for a new account</h1>
-            <hr>
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-sm btn-primary">Register</button>
-            </form>
-            <p>
-                Already have an account?
-                <a href="/login">Log in</a>
-            </p>
-        </div>
-    </div>
-</div> {% endcomment %}
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -73,12 +57,7 @@
                     <span>Expense History</span></a>
             </li>
             {%endif%}
-            {% comment %} <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Logout</span></a>
-            </li> {% endcomment %}
-  
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
@@ -105,24 +84,9 @@
                                 <a class="button button2" href="{% url 'login' %}" role="button">Login</a>
                             </li>
                         </li>
-                      
-                            <!-- Dropdown - User Information -->
-                            {% comment %} <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-  
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div> {% endcomment %}
-                        </li>
-  
                     </ul>
-  
                 </nav>
                 <!-- End of Topbar -->
-{% comment %} <body class="bg-gradient-primary"> {% endcomment %}
 
                 <div class="container">
 

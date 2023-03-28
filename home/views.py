@@ -9,7 +9,7 @@ from .forms import AddExpenseForm
 from .models import Profile, Expense
 from django.db.models import Max
 from django.utils.timezone import now
-# from .models import User
+
 # Create your views here.
 
 def redirect_view(request):
@@ -26,7 +26,6 @@ def home(request):
 		income = profile.income if profile.income is not None else 0
 		amounts = [int(expense.amount) for expense in expenses]
 		total_expense = sum(amounts)
-		# total_expense = sum(expense.amount for expense in expenses)
 		balance = income - total_expense
 	except Profile.DoesNotExist:
 		profile = "New User"
@@ -105,11 +104,6 @@ def profile(request):
 
 @login_required(login_url = 'login')
 def add_expense(request):
-	# user_profile = Profile.objects.get(user=request.user)
-	# try:
-    #     profile = request.user.profile
-    # except Profile.DoesNotExist:
-    #     profile = Profile(user=request.user)
 	try:
 		user_profile = Profile.objects.get(user=request.user)
 	except Profile.DoesNotExist:
@@ -120,7 +114,6 @@ def add_expense(request):
 		form = AddExpenseForm(request.POST)
 
 		if form.is_valid():
-			#create a new expense obj
 			expense_id = Expense.objects.aggregate(Max('id'))['id__max'] + 1
 			new_expense = form.save(commit=False)
 			new_expense.id = expense_id
@@ -161,7 +154,6 @@ def update_expense(request, expense_id):
 def delete_expense(request, expense_id):
 	expense = get_object_or_404(Expense, id = expense_id, user = request.user)
 	expense.delete()
-	# messages.WARNING("Expense deleted succesfully")
 	return redirect(reverse('home'))
 	
 

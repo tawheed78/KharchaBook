@@ -28,15 +28,7 @@ class AddExpenseForm(forms.ModelForm):
 		widgets = {
             'date': forms.DateInput(attrs={'type': 'date'})
         }
-	# def save(self, profile, commit=True):
-	# 	expense = super().save(commit=False)
-	# 	expense.profile = profile
-	# 	if commit:
-	# 		expense.save()
-	# 	return expense
-			
-
-
+				
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile

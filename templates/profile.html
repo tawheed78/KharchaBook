@@ -2,48 +2,7 @@
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
-{% comment %} <div class="content">
-    <div class="container py-5">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1>{{ request.user.username }}'s Profile</h1>
-            {% if profile.income %}
-                <p>Income: {{ profile.income }}</p>
-            {% endif %}
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Save</button>
-            </form>
-        </div>
-    </div>
-</div> {% endcomment %}
-{% comment %} <style>
-    .button {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 15px;
-        margin: 4px 2px;
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-    .button2 {
-        background-color: white; 
-        color: black; 
-        border: 2px solid #008CBA;
-      }
-      
-      .button2:hover {
-        background-color: #008CBA;
-        color: white;
-        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-      }
-      
-</style> {% endcomment %}
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -98,12 +57,6 @@
                     <span>Expense History</span></a>
             </li>
             {% endif %}
-            {% comment %} <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Logout</span></a>
-            </li> {% endcomment %}
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
@@ -136,24 +89,11 @@
                                 <a class="button button2" href="{% url 'login' %}" role="button">Login</a>
                             </li>
                         </li>
-                        {% endif %}
-                            <!-- Dropdown - User Information -->
-                            {% comment %} <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div> {% endcomment %}
-                        </li>
-
+                        {% endif %}                      
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
-{% comment %} <body class="bg-gradient-primary"> {% endcomment %}
+
                 <div class="container">
                 
                     <!-- Outer Row -->
@@ -177,8 +117,7 @@
                                                         <label>{{ form.income|as_crispy_field }}</label>
                                                         
                                                     </div>                              
-                                                    <button type="submit" class="button button2">Update</button>
-                                                    {% comment %} <button type="submit">Update Income</button> {% endcomment %}
+                                                    <button type="submit" class="button button2">Update</button>                                        
                                                     <hr>
                                                 </form>
                                                 <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp; Back</button>

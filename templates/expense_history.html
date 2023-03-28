@@ -3,41 +3,6 @@
 {% load static %}
 
 {% block content %}
-{% comment %} <div class="content">
-    <div class="container py-5">
-        <h3 class="text-uppercase">History</h3><small>You have total {{expense_count}} transactions</small>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table class="table table-hover" id="myOrdersTable">
-                <thead>
-                    <tr>
-                        <th scope="col">User</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Update</th>                           
-                    </tr>
-                </thead>
-                <tbody>
-                {% for expense in recent_expense %}
-                    <tr>
-                        <td>{{ expense.user }}</td>
-                        <td>{{ expense.name }}</td>
-                        <td>{{ expense.amount}}</td>
-                        <td>{{ expense.date}}</td>
-                        <td>
-                            <a href="{% url 'update_expense' expense.id %}" class="btn btn-primary">Update</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'delete_expense' expense.id %}" class="btn btn-primary">Delete</a>
-                        </td>
-                        
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>												
-    </div>
-</div> {% endcomment %}
 
 <body id="page-top">
 
@@ -90,12 +55,6 @@
                     <span>Expense History</span></a>
             </li>
 
-            {% comment %} <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Logout</span></a>
-            </li> {% endcomment %}
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
         </ul>
@@ -128,8 +87,8 @@
                 <div class="container-fluid">
                     
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Recent Expenses</h1>
-                    <p class="mb-4">The following are the expenses that have been done by {{profile}}</p>
+                    <h1 class="h3 mb-2 text-gray-800"> Expenses</h1>
+                    <p class="mb-4">The following are the expenses that have been done by you</p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
